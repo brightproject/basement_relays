@@ -105,7 +105,17 @@ void setup_wifi() {
 
 void reconnectWifi() {
   while (WiFi.status() != WL_CONNECTED) {
-
+    if (relay_2) {
+      DEBUG("relay 2 ON");
+      long now = millis();
+      if (now - lastMsg > 10000) {
+        lastMsg = now;
+        relay_2 = false;
+        DEBUG("relay 2 OFF");
+      }
+    }
+  }
+  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     DEBUG(".");
     reconnect();
